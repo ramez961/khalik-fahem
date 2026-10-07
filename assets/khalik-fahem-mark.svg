@@ -1,5 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="خلك فاهم">
-  <rect width="64" height="64" rx="18" fill="#B2CE38"/>
-  <path d="M18 14h9v14l16-14h12L35 30l19 20H41L27 36v12h-9V14z" fill="#0B0D0B"/>
-  <path d="M39 11c5 3 7 7 7 12 0-4 2-8 6-11-4 1-7 4-8 7-.9-2-2-4-5-8z" fill="#0B0D0B" opacity="0.8"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 84" role="img" aria-label="خلك فاهم">
+  <rect width="260" height="84" rx="18" fill="#0D0E0C"/>
+  <rect x="0" y="0" width="28" height="84" rx="18" fill="#B2CE38"/>
+  <text x="48" y="53" fill="#F6F8F2" font-family="'IBM Plex Sans Arabic', Tahoma, Arial, sans-serif" font-size="30" font-weight="700" direction="rtl" unicode-bidi="plaintext">خلك فاهم</text>
+  <rect x="174" y="0" width="86" height="84" rx="18" fill="#B2CE38"/>
+  <path d="M194 18v48h-12V42l-19 24h-13l17-21-17-20h13l11 13V18zm25 0v48h12V18z" fill="#0D0E0C"/>
+  <path d="M229 14c4 6 7 11 7 18 0-6 3-11 7-18-4 2-7 5-9 9-1-2-3-5-5-9z" fill="#0D0E0C" opacity="0.75"/>
 </svg>
