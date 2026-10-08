@@ -6,26 +6,50 @@ if (year) {
   year.textContent = new Date().getFullYear();
 }
 
-const video = document.querySelector('.video-player');
+const videoContainer = document.querySelector('.video-player');
 const videoPlayButton = document.querySelector('.video-play-button');
 
-if (video && videoPlayButton) {
+const getYouTubeVideoId = (value) => {
+  try {
+    const url = new URL(value);
+    const host = url.hostname.replace(/^www\\./, '').toLowerCase();
+    let videoId = '';
+
+    if (host === 'youtu.be') {
+      videoId = url.pathname.split('/').filter(Boolean)[0] || '';
+    } else if (host === 'youtube.com' || host === 'm.youtube.com' || host === 'youtube-nocookie.com') {
+      if (url.pathname === '/watch') {
+        videoId = url.searchParams.get('v') || '';
+      } else {
+        videoId = url.pathname.match(/^\\/(?:embed|shorts)\\/([^/?]+)/)?.[1] || '';
+      }
+    }
+
+    return /^[a-zA-Z0-9_-]{11}$/.test(videoId) ? videoId : null;
+  } catch {
+    return null;
+  }
+};
+
+if (videoContainer && videoPlayButton) {
   videoPlayButton.addEventListener('click', () => {
-    video.play().catch((error) => {
-      console.error('Unable to play the video.', error);
-    });
-  });
+    const videoId = getYouTubeVideoId(videoContainer.dataset.youtubeUrl || '');
 
-  video.addEventListener('play', () => {
+    if (!videoId) {
+      videoPlayButton.setAttribute('aria-label', 'أضف رابط فيديو يوتيوب في إعدادات الصفحة');
+      return;
+    }
+
+    const player = document.createElement('iframe');
+    player.className = 'youtube-player';
+    player.title = 'فيديو خلك فاهم';
+    player.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&playsinline=1`;
+    player.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+    player.allowFullscreen = true;
+    player.referrerPolicy = 'strict-origin-when-cross-origin';
+    player.loading = 'eager';
+    videoContainer.replaceWith(player);
     videoPlayButton.hidden = true;
-  });
-
-  video.addEventListener('pause', () => {
-    videoPlayButton.hidden = false;
-  });
-
-  video.addEventListener('ended', () => {
-    videoPlayButton.hidden = false;
   });
 }
 
