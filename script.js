@@ -143,7 +143,7 @@ if (testimonialCarousel) {
       const visibleCount = mobileLayout.matches ? 1 : 3;
       const maxIndex = Math.max(0, cards.length - visibleCount);
       const maxTranslate = maxIndex * dragStep;
-      const translate = Math.max(0, Math.min(maxTranslate, dragStartTranslate - (event.clientX - pointerStartX)));
+      const translate = Math.max(0, Math.min(maxTranslate, dragStartTranslate + (event.clientX - pointerStartX)));
       track.style.transform = `translateX(${translate}px)`;
     });
 
@@ -152,7 +152,7 @@ if (testimonialCarousel) {
         return;
       }
 
-      const translate = dragStartTranslate - (event ? event.clientX - pointerStartX : 0);
+      const translate = dragStartTranslate + (event ? event.clientX - pointerStartX : 0);
       const visibleCount = mobileLayout.matches ? 1 : 3;
       const maxIndex = Math.max(0, cards.length - visibleCount);
       index = Math.max(0, Math.min(maxIndex, Math.round(translate / dragStep)));
