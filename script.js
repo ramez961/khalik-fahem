@@ -112,29 +112,61 @@ if (testimonialCarousel) {
       }
     });
 
+    let dragStartTranslate = 0;
+    let dragStep = 0;
+
     viewport.addEventListener('pointerdown', (event) => {
-      if (!event.isPrimary || event.target.closest('button')) {
+      if (!event.isPrimary || event.target.closest('button') || (event.pointerType === 'mouse' && event.button !== 0)) {
         return;
       }
+
+      const gap = Number.parseFloat(getComputedStyle(track).columnGap) || 0;
+      dragStep = cards[0].getBoundingClientRect().width + gap;
+      if (!dragStep) {
+        return;
+      }
+
       pointerStartX = event.clientX;
+      dragStartTranslate = index * dragStep;
+      track.style.transition = 'none';
+      viewport.classList.add('is-dragging');
+      if (viewport.setPointerCapture) {
+        viewport.setPointerCapture(event.pointerId);
+      }
     });
 
-    viewport.addEventListener('pointerup', (event) => {
+    viewport.addEventListener('pointermove', (event) => {
       if (pointerStartX === null) {
         return;
       }
 
-      const delta = event.clientX - pointerStartX;
-      pointerStartX = null;
+      const visibleCount = mobileLayout.matches ? 1 : 3;
+      const maxIndex = Math.max(0, cards.length - visibleCount);
+      const maxTranslate = maxIndex * dragStep;
+      const translate = Math.max(0, Math.min(maxTranslate, dragStartTranslate - (event.clientX - pointerStartX)));
+      track.style.transform = `translateX(${translate}px)`;
+    });
 
-      if (Math.abs(delta) > 40) {
-        (delta < 0 ? nextButton : previousButton).click();
+    const finishDrag = (event) => {
+      if (pointerStartX === null) {
+        return;
       }
-    });
 
-    viewport.addEventListener('pointercancel', () => {
+      const translate = dragStartTranslate - (event ? event.clientX - pointerStartX : 0);
+      const visibleCount = mobileLayout.matches ? 1 : 3;
+      const maxIndex = Math.max(0, cards.length - visibleCount);
+      index = Math.max(0, Math.min(maxIndex, Math.round(translate / dragStep)));
       pointerStartX = null;
-    });
+      viewport.classList.remove('is-dragging');
+      track.style.transition = '';
+      if (event && viewport.hasPointerCapture && viewport.hasPointerCapture(event.pointerId)) {
+        viewport.releasePointerCapture(event.pointerId);
+      }
+      updateCarousel();
+    };
+
+    viewport.addEventListener('pointerup', finishDrag);
+    viewport.addEventListener('pointercancel', finishDrag);
 
     if (mobileLayout.addEventListener) {
       mobileLayout.addEventListener('change', updateCarousel);
