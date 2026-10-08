@@ -12,7 +12,7 @@ const videoPlayButton = document.querySelector('.video-play-button');
 const getYouTubeVideoId = (value) => {
   try {
     const url = new URL(value);
-    const host = url.hostname.replace(/^www\\./, '').toLowerCase();
+    const host = url.hostname.replace(/^www\./, '').toLowerCase();
     let videoId = '';
 
     if (host === 'youtu.be') {
@@ -20,7 +20,7 @@ const getYouTubeVideoId = (value) => {
     } else if (['youtube.com', 'm.youtube.com', 'youtube-nocookie.com'].includes(host)) {
       videoId = url.pathname === '/watch'
         ? url.searchParams.get('v') || ''
-        : url.pathname.match(/^\\/(?:embed|shorts)\\/([^/?]+)/)?.[1] || '';
+        : url.pathname.match(/^\/(?:embed|shorts)\/([^/?]+)/)?.[1] || '';
     }
 
     return /^[a-zA-Z0-9_-]{11}$/.test(videoId) ? videoId : null;
