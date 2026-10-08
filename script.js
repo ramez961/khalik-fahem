@@ -43,7 +43,7 @@ if (videoContainer && videoPlayButton) {
     const player = document.createElement('iframe');
     player.className = 'youtube-player';
     player.title = 'فيديو خلك فاهم';
-    player.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&controls=0&fs=0&rel=0&playsinline=1`;
+    player.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&controls=1&fs=1&rel=0&playsinline=1`;
     player.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
     player.allowFullscreen = true;
     player.referrerPolicy = 'strict-origin-when-cross-origin';
