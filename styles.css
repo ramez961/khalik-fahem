@@ -17,5 +17,3 @@
 .client-details { display: flex; min-width: 0; flex-direction: column; gap: 2px; }
 .client-details strong { display: block; }
 .client-result { display: block; color: var(--muted); font-size: 11px; line-height: 1.55; }
-
-.drive-popout-mask{position:absolute;top:0;right:0;z-index:3;width:48px;height:48px;border-radius:0 8px 0 8px;background:rgba(0,0,0,.78);pointer-events:auto}
